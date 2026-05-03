@@ -1,3 +1,9 @@
+//configuracion Express
+//Permite JASON
+//Define rutas
+//Inicia servidor
+//verifica conexion al arrancar
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';

@@ -1,4 +1,6 @@
 //CRUD ESPECIALIDADES
+//Usa poo.query()para consultar BD
+//soft delete,No borra,solo activo=0,Cuando se realizan las consultas desde posman no aparece,pero desde la bd MYSQL existe pero como inactivo=0
 
 import { pool } from '../config/db.js';
 
