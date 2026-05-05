@@ -1,3 +1,5 @@
+//conexión a la BD 
+
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 

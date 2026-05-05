@@ -1,3 +1,4 @@
+//Se verifica conexion a BD
 import { pool } from './db.js';
 
 export const testConexion = async () => {
