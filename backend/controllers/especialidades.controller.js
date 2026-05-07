@@ -1,81 +1,81 @@
-//CRUD ESPECIALIDADES
-//Usa poo.query()para consultar BD
-//soft delete,No borra,solo activo=0,Cuando se realizan las consultas desde posman no aparece,pero desde la bd MYSQL existe pero como inactivo=0
-
 import { pool } from '../config/db.js';
 
-
-// LISTAR
+// BROWSE - LISTAR TODAS
 export const getEspecialidades = async (req, res) => {
-  const [rows] = await pool.query(
-    'SELECT * FROM especialidades WHERE activo = 1'
-  );
-  res.json(rows);
+  try {
+    const [rows] = await pool.query('SELECT * FROM especialidades WHERE activo = 1');
+    res.status(200).json({ ok: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ ok: false, mensaje: 'Error al obtener las especialidades' });
+  }
 };
 
-// ✔ OBTENER UNA
+// READ - OBTENER UNA
 export const getEspecialidad = async (req, res) => {
-  const { id } = req.params;
-
-  const [rows] = await pool.query(
-    'SELECT * FROM especialidades WHERE id_especialidad = ? AND activo = 1',
-    [id]
-  );
-
-  if (rows.length === 0) {
-    return res.status(404).json({ message: 'No encontrada' });
+  try {
+    const { id } = req.params;
+    const [rows] = await pool.query(
+      'SELECT * FROM especialidades WHERE id_especialidad = ? AND activo = 1',
+      [id]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ ok: false, mensaje: 'Especialidad no encontrada' });
+    }
+    res.status(200).json({ ok: true, data: rows[0] });
+  } catch (error) {
+    res.status(500).json({ ok: false, mensaje: 'Error al obtener la especialidad' });
   }
-
-  res.json(rows[0]);
 };
 
-
-// CREAR
+// ADD - CREAR
 export const createEspecialidad = async (req, res) => {
-  const { nombre } = req.body;
-
-  const [result] = await pool.query(
-    'INSERT INTO especialidades (nombre, activo) VALUES (?, 1)',
-    [nombre]
-  );
-
-  res.json({
-    id: result.insertId,
-    nombre
-  });
+  try {
+    const { nombre } = req.body;
+    const [result] = await pool.query(
+      'INSERT INTO especialidades (nombre, activo) VALUES (?, 1)',
+      [nombre]
+    );
+    res.status(201).json({
+      ok: true,
+      data: { id: result.insertId, nombre },
+      mensaje: 'Especialidad creada'
+    });
+  } catch (error) {
+    res.status(500).json({ ok: false, mensaje: 'Error al crear la especialidad' });
+  }
 };
 
-
-// EDITAR
+// EDIT - ACTUALIZAR
 export const updateEspecialidad = async (req, res) => {
-  const { id } = req.params;
-  const { nombre } = req.body;
-
-  const [result] = await pool.query(
-    'UPDATE especialidades SET nombre = ? WHERE id_especialidad = ?',
-    [nombre, id]
-  );
-
-  if (result.affectedRows === 0) {
-    return res.status(404).json({ message: 'No encontrada' });
+  try {
+    const { id } = req.params;
+    const { nombre } = req.body;
+    const [result] = await pool.query(
+      'UPDATE especialidades SET nombre = ? WHERE id_especialidad = ? AND activo = 1',
+      [nombre, id]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ ok: false, mensaje: 'Especialidad no encontrada' });
+    }
+    res.status(200).json({ ok: true, mensaje: 'Especialidad actualizada' });
+  } catch (error) {
+    res.status(500).json({ ok: false, mensaje: 'Error al actualizar la especialidad' });
   }
-
-  res.json({ message: 'Actualizada' });
 };
 
-
-// ✔ DELETE 
+// DELETE - BAJA LÓGICA
 export const deleteEspecialidad = async (req, res) => {
-  const { id } = req.params;
-
-  const [result] = await pool.query(
-    'UPDATE especialidades SET activo = 0 WHERE id_especialidad = ?',
-    [id]
-  );
-
-  if (result.affectedRows === 0) {
-    return res.status(404).json({ message: 'No encontrada' });
+  try {
+    const { id } = req.params;
+    const [result] = await pool.query(
+      'UPDATE especialidades SET activo = 0 WHERE id_especialidad = ? AND activo = 1',
+      [id]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ ok: false, mensaje: 'Especialidad no encontrada' });
+    }
+    res.status(200).json({ ok: true, mensaje: 'Especialidad eliminada' });
+  } catch (error) {
+    res.status(500).json({ ok: false, mensaje: 'Error al eliminar la especialidad' });
   }
-
-  res.json({ message: 'Eliminada' });
 };

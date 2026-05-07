@@ -20,7 +20,7 @@ app.use(express.json());
 
 
 // rutas
-app.use('/api/especialidades', especialidadesRoutes);
+app.use('/api/v1/especialidades', especialidadesRoutes);
 
 // iniciar servidor + test BD
 app.listen(process.env.PORT, async () => {
@@ -28,4 +28,4 @@ app.listen(process.env.PORT, async () => {
   await testConexion();
 });
 
-//url de la api:http://localhost:3000/api/especialidades
+//url de la api:http://localhost:3000/api/v1/especialidades
