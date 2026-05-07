@@ -24,8 +24,11 @@ app.use('/api/v1/especialidades', especialidadesRoutes);
 
 // iniciar servidor + test BD
 app.listen(process.env.PORT, async () => {
+  console.log('------------------------------------------------');
   console.log(`Servidor corriendo en puerto ${process.env.PORT}`);
   await testConexion();
+  console.log('Sistema de clinica-Entidad Especialidades');
+  console.log('-------------------------------------------------');
 });
 
 //url de la api:http://localhost:3000/api/v1/especialidades
