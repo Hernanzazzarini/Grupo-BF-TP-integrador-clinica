@@ -1,3 +1,7 @@
+//Define los endpoints
+
+import { validarEspecialidad } from '../middlewares/especialidades.validator.js';
+import { validarCampos } from '../middlewares/validar-campos.js';
 import { Router } from 'express';
 import {
   getEspecialidades,
@@ -11,8 +15,8 @@ const router = Router();
 
 router.get('/', getEspecialidades);
 router.get('/:id', getEspecialidad);
-router.post('/', createEspecialidad);
-router.put('/:id', updateEspecialidad);
+router.post('/',validarEspecialidad,validarCampos,createEspecialidad);
+router.put('/:id',validarEspecialidad,validarCampos,updateEspecialidad);
 router.delete('/:id', deleteEspecialidad);
 
 export default router;
