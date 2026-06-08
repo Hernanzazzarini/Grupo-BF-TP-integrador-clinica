@@ -11,6 +11,8 @@ import morgan from 'morgan';
 
 import especialidadesV1 from './routes/v1/especialidades.routes.js';
 import especialidadesV2 from './routes/v2/especialidades.routes.js';
+import authRoutes from './routes/v2/auth.routes.js';
+
 
 
 
@@ -28,6 +30,7 @@ app.use(express.json());
 // rutas
 app.use('/api/v1/especialidades', especialidadesV1);
 app.use('/api/v2/especialidades', especialidadesV2);
+app.use('/api/v2/auth', authRoutes);
 
 // iniciar servidor + test BD
 app.listen(process.env.PORT, async () => {
@@ -42,3 +45,5 @@ app.listen(process.env.PORT, async () => {
 });
 
 //url de la api:http://localhost:3000/api/v1/especialidades
+//url de la api:http://localhost:3000/api/v2/especialidades
+//url de la api auth:http://localhost:3000/api/v2/auth/login
