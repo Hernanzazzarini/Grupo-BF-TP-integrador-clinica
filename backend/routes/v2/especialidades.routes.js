@@ -4,6 +4,7 @@ import { validarEspecialidad } from '../../middlewares/especialidades.validator.
 import { validarCampos } from '../../middlewares/validar-campos.js';
 import { Router } from 'express';
 import { validarJWT } from '../../middlewares/validar-jwt.js';
+import { tieneRol } from '../../middlewares/validar-rol.js';
 import {
   getEspecialidades,
   getEspecialidad,
@@ -12,23 +13,27 @@ import {
   deleteEspecialidad
 } from '../../controllers/especialidades.controller.js';
 
+
 const router = Router();
 
 router.get(
   '/',
   validarJWT,
+  tieneRol( 2, 3),
   getEspecialidades
 );
 
 router.get(
   '/:id',
   validarJWT,
+  tieneRol( 2, 3),
   getEspecialidad
 );
 
 router.post(
   '/',
   validarJWT,
+  tieneRol(3),
   validarEspecialidad,
   validarCampos,
   createEspecialidad
@@ -37,6 +42,7 @@ router.post(
 router.put(
   '/:id',
   validarJWT,
+  tieneRol(3),
   validarEspecialidad,
   validarCampos,
   updateEspecialidad
@@ -45,6 +51,7 @@ router.put(
 router.delete(
   '/:id',
   validarJWT,
+  tieneRol(3),
   deleteEspecialidad
 );
 
