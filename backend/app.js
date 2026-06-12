@@ -12,6 +12,9 @@ import morgan from 'morgan';
 import especialidadesV1 from './routes/v1/especialidades.routes.js';
 import especialidadesV2 from './routes/v2/especialidades.routes.js';
 import authRoutes from './routes/v2/auth.routes.js';
+import obrasSocialesV2 from './routes/v2/obras-sociales.routes.js';
+import medicosV2 from './routes/v2/medicos.routes.js';
+import medicosObrasSocialesV2 from './routes/v2/medicos-obras-sociales.routes.js';
 
 
 
@@ -31,6 +34,9 @@ app.use(express.json());
 app.use('/api/v1/especialidades', especialidadesV1);
 app.use('/api/v2/especialidades', especialidadesV2);
 app.use('/api/v2/auth', authRoutes);
+app.use('/api/v2/obras-sociales', obrasSocialesV2);
+app.use('/api/v2/medicos', medicosV2);
+app.use('/api/v2/medicos-obras-sociales',medicosObrasSocialesV2);
 
 // iniciar servidor + test BD
 app.listen(process.env.PORT, async () => {
@@ -47,3 +53,6 @@ app.listen(process.env.PORT, async () => {
 //url de la api:http://localhost:3000/api/v1/especialidades
 //url de la api:http://localhost:3000/api/v2/especialidades
 //url de la api auth:http://localhost:3000/api/v2/auth/login
+//url de la api obras sociales:http://localhost:3000/api/v2/obras-sociales
+// url de la api medicos:http://localhost:3000/api/v2/medicos
+// url de la api medicos:http://localhost:3000/api/v2/medicos-obras-sociales
