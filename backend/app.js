@@ -15,6 +15,8 @@ import authRoutes from './routes/v2/auth.routes.js';
 import obrasSocialesV2 from './routes/v2/obras-sociales.routes.js';
 import medicosV2 from './routes/v2/medicos.routes.js';
 import medicosObrasSocialesV2 from './routes/v2/medicos-obras-sociales.routes.js';
+import pacientesV2 from './routes/v2/pacientes.routes.js';
+import turnosV2 from './routes/v2/turnos.routes.js';
 
 
 
@@ -37,6 +39,8 @@ app.use('/api/v2/auth', authRoutes);
 app.use('/api/v2/obras-sociales', obrasSocialesV2);
 app.use('/api/v2/medicos', medicosV2);
 app.use('/api/v2/medicos-obras-sociales',medicosObrasSocialesV2);
+app.use('/api/v2/pacientes', pacientesV2);
+app.use('/api/v2/turnos', turnosV2);
 
 // iniciar servidor + test BD
 app.listen(process.env.PORT, async () => {
@@ -56,3 +60,5 @@ app.listen(process.env.PORT, async () => {
 //url de la api obras sociales:http://localhost:3000/api/v2/obras-sociales
 // url de la api medicos:http://localhost:3000/api/v2/medicos
 // url de la api medicos:http://localhost:3000/api/v2/medicos-obras-sociales
+// url de la api medicos:http://localhost:3000/api/v2/pacientes
+// url de la api medicos:http://localhost:3000/api/v2/turnos

@@ -3,6 +3,7 @@ import { Router } from 'express';
 import {
   getMedicosObrasSociales,
   createMedicoObraSocial,
+  updateMedicoObraSocial,
   deleteMedicoObraSocial
 } from '../../controllers/medicos-obras-sociales.controller.js';
 
@@ -28,6 +29,15 @@ router.post(
   validarMedicoObraSocial,
   validarCampos,
   createMedicoObraSocial
+);
+
+router.put(
+  '/:id',
+  validarJWT,
+  tieneRol(3),
+  validarMedicoObraSocial,
+  validarCampos,
+  updateMedicoObraSocial
 );
 
 router.delete(

@@ -1,0 +1,118 @@
+import { pool } from '../config/db.js';
+
+export const getTurnos = async (req, res) => {
+
+  const [rows] = await pool.query(`
+    SELECT *
+    FROM turnos_reservas
+    WHERE activo = 1
+  `);
+
+  res.json(rows);
+
+};
+
+export const createTurno = async (req, res) => {
+
+  try {
+
+    const {
+      id_medico,
+      id_paciente,
+      fecha_hora
+    } = req.body;
+
+    // Obtener obra social del paciente
+
+    const [paciente] = await pool.query(`
+      SELECT id_obra_social
+      FROM pacientes
+      WHERE id_paciente = ?
+    `,[id_paciente]);
+
+    if (paciente.length === 0) {
+      return res.status(404).json({
+        message:'Paciente no encontrado'
+      });
+    }
+
+    const id_obra_social = paciente[0].id_obra_social;
+
+    // Obtener valor consulta
+
+    const [medico] = await pool.query(`
+      SELECT valor_consulta
+      FROM medicos
+      WHERE id_medico = ?
+    `,[id_medico]);
+
+    if (medico.length === 0) {
+      return res.status(404).json({
+        message:'Médico no encontrado'
+      });
+    }
+
+    const valorConsulta = medico[0].valor_consulta;
+
+    // Obtener descuento
+
+    const [obra] = await pool.query(`
+      SELECT
+        porcentaje_descuento,
+        es_particular
+      FROM obras_sociales
+      WHERE id_obra_social = ?
+    `,[id_obra_social]);
+
+    const porcentaje = obra[0].porcentaje_descuento;
+    const esParticular = obra[0].es_particular;
+
+    let valorTotal;
+
+    if (esParticular === 1) {
+
+      valorTotal = valorConsulta;
+
+    } else {
+
+      valorTotal =
+        valorConsulta -
+        ((porcentaje / 100) * valorConsulta);
+
+    }
+
+    const [result] = await pool.query(`
+      INSERT INTO turnos_reservas
+      (
+        id_medico,
+        id_paciente,
+        id_obra_social,
+        fecha_hora,
+        valor_total,
+        atentido
+      )
+      VALUES (?,?,?,?,?,0)
+    `,
+    [
+      id_medico,
+      id_paciente,
+      id_obra_social,
+      fecha_hora,
+      valorTotal
+    ]);
+
+    res.status(201).json({
+      id: result.insertId,
+      valor_total: valorTotal,
+      message:'Turno registrado correctamente'
+    });
+
+  } catch(error){
+
+    console.error(error);
+
+    res.status(500).json({
+      message:'Error interno del servidor'
+    });
+  }
+};

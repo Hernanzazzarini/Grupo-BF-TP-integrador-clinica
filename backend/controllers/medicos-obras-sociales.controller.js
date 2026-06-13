@@ -55,6 +55,56 @@ export const createMedicoObraSocial = async (req, res) => {
   }
 };
 
+export const updateMedicoObraSocial = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const {
+      id_medico,
+      id_obra_social
+    } = req.body;
+
+    const [result] = await pool.query(`
+      UPDATE medicos_obras_sociales
+      SET
+        id_medico = ?,
+        id_obra_social = ?
+      WHERE id_medico_obra_social = ?
+    `,
+    [
+      id_medico,
+      id_obra_social,
+      id
+    ]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: 'Asociación no encontrada'
+      });
+    }
+
+    res.json({
+      message: 'Asociación actualizada correctamente'
+    });
+
+  } catch (error) {
+
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({
+        message: 'La asociación ya existe'
+      });
+    }
+
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Error interno del servidor'
+    });
+  }
+};
+
 export const deleteMedicoObraSocial = async (req, res) => {
 
   const { id } = req.params;
