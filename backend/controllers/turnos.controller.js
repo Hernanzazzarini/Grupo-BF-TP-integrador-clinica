@@ -116,3 +116,101 @@ export const createTurno = async (req, res) => {
     });
   }
 };
+
+
+export const getMisTurnosMedico = async (req, res) => {
+
+  try {
+
+    const id_usuario = req.usuario.id_usuario;
+
+    const [medico] = await pool.query(`
+      SELECT id_medico
+      FROM medicos
+      WHERE id_usuario = ?
+    `,[id_usuario]);
+
+    if (medico.length === 0) {
+      return res.status(404).json({
+        message: 'Médico no encontrado'
+      });
+    }
+
+    const [turnos] = await pool.query(`
+      SELECT *
+      FROM turnos_reservas
+      WHERE id_medico = ?
+      AND activo = 1
+    `,[medico[0].id_medico]);
+
+    res.json(turnos);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message:'Error interno del servidor'
+    });
+  }
+};
+
+export const marcarAtendido = async (req, res) => {
+
+  const { id } = req.params;
+
+  const [result] = await pool.query(`
+    UPDATE turnos_reservas
+    SET atentido = 1
+    WHERE id_turno_reserva = ?
+      AND activo = 1
+  `,[id]);
+
+  if(result.affectedRows === 0){
+    return res.status(404).json({
+      message:'Turno no encontrado'
+    });
+  }
+
+  res.json({
+    message:'Turno marcado como atendido'
+  });
+
+};
+
+export const getMisTurnosPaciente = async (req, res) => {
+
+  try {
+
+    const id_usuario = req.usuario.id_usuario;
+
+    const [paciente] = await pool.query(`
+      SELECT id_paciente
+      FROM pacientes
+      WHERE id_usuario = ?
+    `,[id_usuario]);
+
+    if (paciente.length === 0) {
+      return res.status(404).json({
+        message: 'Paciente no encontrado'
+      });
+    }
+
+    const [turnos] = await pool.query(`
+      SELECT *
+      FROM turnos_reservas
+      WHERE id_paciente = ?
+      AND activo = 1
+    `,[paciente[0].id_paciente]);
+
+    res.json(turnos);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message:'Error interno del servidor'
+    });
+  }
+};

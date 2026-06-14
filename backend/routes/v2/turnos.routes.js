@@ -2,7 +2,10 @@ import { Router } from 'express';
 
 import {
   getTurnos,
-  createTurno
+  createTurno,
+  getMisTurnosMedico,
+  marcarAtendido,
+  getMisTurnosPaciente
   
 } from '../../controllers/turnos.controller.js';
 
@@ -30,5 +33,25 @@ router.post(
   createTurno
 );
 
+router.get(
+  '/mis-turnos-medico',
+  validarJWT,
+  tieneRol(1),
+  getMisTurnosMedico
+);
+router.get(
+  '/mis-turnos-paciente',
+  validarJWT,
+  tieneRol(2),
+  getMisTurnosPaciente
+);
+
+
+router.put(
+  '/:id/atendido',
+  validarJWT,
+  tieneRol(1),
+  marcarAtendido
+);
 
 export default router;
