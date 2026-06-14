@@ -5,7 +5,8 @@ import {
   createTurno,
   getMisTurnosMedico,
   marcarAtendido,
-  getMisTurnosPaciente
+  getMisTurnosPaciente,
+  reservarTurnoPaciente
   
 } from '../../controllers/turnos.controller.js';
 
@@ -44,6 +45,13 @@ router.get(
   validarJWT,
   tieneRol(2),
   getMisTurnosPaciente
+);
+
+router.post(
+  '/reservar',
+  validarJWT,
+  tieneRol(2),
+  reservarTurnoPaciente
 );
 
 
