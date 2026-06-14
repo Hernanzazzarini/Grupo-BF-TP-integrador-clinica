@@ -17,6 +17,7 @@ import medicosV2 from './routes/v2/medicos.routes.js';
 import medicosObrasSocialesV2 from './routes/v2/medicos-obras-sociales.routes.js';
 import pacientesV2 from './routes/v2/pacientes.routes.js';
 import turnosV2 from './routes/v2/turnos.routes.js';
+import estadisticasRoutes from './routes/v2/estadisticas.routes.js';
 
 
 
@@ -41,6 +42,7 @@ app.use('/api/v2/medicos', medicosV2);
 app.use('/api/v2/medicos-obras-sociales',medicosObrasSocialesV2);
 app.use('/api/v2/pacientes', pacientesV2);
 app.use('/api/v2/turnos', turnosV2);
+app.use('/api/v2/estadisticas', estadisticasRoutes);
 
 // iniciar servidor + test BD
 app.listen(process.env.PORT, async () => {

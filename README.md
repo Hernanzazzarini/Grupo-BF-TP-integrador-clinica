@@ -21,31 +21,41 @@ url
 //url de la api:http://localhost:3000/api/v1/especialidades(Vers Obsoleta)
 
 
-VERSIONADO V2
+---------VERSIONADO V2-------
 
+---------AUTENTICACION-------
 
-AUTENTICACION
 //url de la api Inicio sesion auth:http://localhost:3000/api/v2/auth/login
+"email":"perlui@correo.com"  /segun el rol
+"contrasenia":"perlui" /cont  3 letras antes del arroba"
 
-MEDICO(ROL=1)
+
+--------MEDICO(ROL=1)--------
+
 // url de la api Listar turnos propios:http://localhost:3000/api/v2/turnos/mis-turnos-medico
+
 // url de la api Marcar turno como atendido: http://localhost:3000/api/v2/turnos/1/atendido  (en la url: 1 hace ref al turno y atendido que fue atendido)       
 
-PACIENTE(ROL=2)
+---------PACIENTE(ROL=2)-------
+
 //url de la api listar turnos propios: http://localhost:3000/api/v2/turnos/mis-turnos-paciente
+
 //url de la api listar especialidades:http://localhost:3000/api/v2/especialidades
-//url de la api Listar todos los medicos y de una especialidad :http://localhost:3000/api/v2/medicos/especialidad/1 (1 es la especiliadidad,puede colocar otra)
+
+//url de la api Listar todos los medicos y de una especialidad :http://localhost:3000/api/v2/medicos/especialidad/1 (1 es la especiliadidad,puede colocar otra).
+
 //url de la api crear reservas(turnos Propios):http://localhost:3000/api/v2/turnos/reservar
 
 
-ADMINISTRADOR(ROL=3)
+---------ADMINISTRADOR(ROL=3)-------
 
 //url de la api listar,crear y editar especialidades:http://localhost:3000/api/v2/especialidades
-//url de la api obras sociales:http://localhost:3000/api/v2/obras-sociales
+//url de la api Listar,crear y editar obras sociales:http://localhost:3000/api/v2/obras-sociales
 // url de la api asociar medicos con especialidades :http://localhost:3000/api/v2/medicos
 // url de la api asociar medicos con obras sociales:http://localhost:3000/api/v2/medicos-obras-sociales
 // url de la api asociar pacientes con obras sociales:http://localhost:3000/api/v2/pacientes
 // url de la api registrar un turno para un paciente,medico,fecha:http://localhost:3000/api/v2/turnos
+// url de la api para Estadisticas de atenciones:http://localhost:3000/api/v2/estadisticas (Para estadisticas de atenciones se creo en BD -Stored Procedure en MySQL)
 
 
 
