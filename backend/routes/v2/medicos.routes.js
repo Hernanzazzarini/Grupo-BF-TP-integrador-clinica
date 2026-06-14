@@ -5,7 +5,8 @@ import {
   getMedico,
   createMedico,
   updateMedico,
-  deleteMedico
+  deleteMedico,
+  getMedicosPorEspecialidad
 } from '../../controllers/medicos.controller.js';
 
 import { validarJWT } from '../../middlewares/validar-jwt.js';
@@ -21,6 +22,13 @@ router.get(
   validarJWT,
   tieneRol(2, 3),
   getMedicos
+);
+
+router.get(
+  '/especialidad/:id',
+  validarJWT,
+  tieneRol(2),
+  getMedicosPorEspecialidad
 );
 
 router.get(

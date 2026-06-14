@@ -34,6 +34,7 @@ MEDICO(ROL=1)
 PACIENTE(ROL=2)
 //url de la api listar turnos propios: http://localhost:3000/api/v2/turnos/mis-turnos-paciente
 //url de la api listar especialidades:http://localhost:3000/api/v2/especialidades
+//url de la api Listar todos los medicos y de una especialidad :http://localhost:3000/api/v2/medicos/especialidad/1 (1 es la especiliadidad,puede colocar otra)
 
 
 
