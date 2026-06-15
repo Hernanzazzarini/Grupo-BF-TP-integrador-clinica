@@ -1,21 +1,11 @@
-import { pool } from '../config/db.js';
+import * as EstadisticasService from '../services/estadisticas.service.js';
 
 export const getEstadisticas = async (req, res) => {
-
   try {
-    
-    const [rows] = await pool.query(
-      'CALL sp_estadisticas_atenciones()'
-    );
-
-    res.json(rows[0][0]);
-
+    const data = await EstadisticasService.getEstadisticas();
+    res.json(data);
   } catch (error) {
-
     console.error(error);
-
-    res.status(500).json({
-      message: 'Error interno del servidor'
-    });
+    res.status(500).json({ message: 'Error interno del servidor' });
   }
 };

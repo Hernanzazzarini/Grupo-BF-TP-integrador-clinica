@@ -18,10 +18,12 @@ import medicosObrasSocialesV2 from './routes/v2/medicos-obras-sociales.routes.js
 import pacientesV2 from './routes/v2/pacientes.routes.js';
 import turnosV2 from './routes/v2/turnos.routes.js';
 import estadisticasRoutes from './routes/v2/estadisticas.routes.js';
+import pdfRoutes from './routes/v2/pdf.routes.js';
 
 
 
 
+import { swaggerSpec, swaggerUi } from './config/swagger.js';
 import { testConexion } from './config/test-conexion.js';
 
 dotenv.config();
@@ -33,6 +35,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 
+// documentación
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // rutas
 app.use('/api/v1/especialidades', especialidadesV1);
 app.use('/api/v2/especialidades', especialidadesV2);
@@ -43,6 +48,7 @@ app.use('/api/v2/medicos-obras-sociales',medicosObrasSocialesV2);
 app.use('/api/v2/pacientes', pacientesV2);
 app.use('/api/v2/turnos', turnosV2);
 app.use('/api/v2/estadisticas', estadisticasRoutes);
+app.use('/api/v2/reportes', pdfRoutes);
 
 // iniciar servidor + test BD
 app.listen(process.env.PORT, async () => {
