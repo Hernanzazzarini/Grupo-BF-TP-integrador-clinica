@@ -1,3 +1,4 @@
+import { logger } from "../utils/logger.js";
 import { pool } from '../config/db.js';
 
 export const getTurnos = async (req, res) => {
@@ -100,6 +101,7 @@ export const createTurno = async (req, res) => {
       fecha_hora,
       valorTotal
     ]);
+    logger("CREAR_TURNO_ADMIN", req.usuario?.id_usuario);    //auditoria:creacion de turno por admin
 
     res.status(201).json({
       id: result.insertId,
@@ -171,7 +173,7 @@ export const marcarAtendido = async (req, res) => {
       message:'Turno no encontrado'
     });
   }
-
+logger("TURNO_ATENDIDO", req.usuario?.id_usuario);  //auditoria :turno marcado como atendido
   res.json({
     message:'Turno marcado como atendido'
   });
@@ -294,6 +296,8 @@ export const reservarTurnoPaciente = async (req, res) => {
       fecha_hora,
       valorTotal
     ]);
+    // auditoria:reserva de turno por paciente
+     logger("RESERVAR_TURNO_PACIENTE", req.usuario?.id_usuario); 
 
     res.status(201).json({
       id: result.insertId,
