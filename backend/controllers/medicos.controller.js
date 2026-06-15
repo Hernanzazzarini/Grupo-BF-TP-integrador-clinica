@@ -170,3 +170,36 @@ export const deleteMedico = async (req,res) => {
   });
 
 };
+
+export const getMedicosPorEspecialidad = async (req, res) => {
+
+  const { id } = req.params;
+
+  const [especialidad] = await pool.query(`
+    SELECT *
+    FROM especialidades
+    WHERE id_especialidad = ?
+      AND activo = 1
+  `,[id]);
+
+  if (especialidad.length === 0) {
+    return res.status(404).json({
+      message: 'Especialidad no encontrada'
+    });
+  }
+
+  const [medicos] = await pool.query(`
+    SELECT *
+    FROM medicos
+    WHERE id_especialidad = ?
+  `,[id]);
+
+  if (medicos.length === 0) {
+    return res.status(404).json({
+      message: 'No existen médicos asociados a esta especialidad'
+    });
+  }
+
+  res.json(medicos);
+
+};
