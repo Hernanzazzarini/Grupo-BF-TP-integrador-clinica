@@ -392,6 +392,43 @@ ALTER TABLE `turnos_reservas`
   ADD CONSTRAINT `fk_turnos_reservas_pacientes` FOREIGN KEY (`id_paciente`) REFERENCES `pacientes` (`id_paciente`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
+--
+-- Stored Procedures
+--
+
+DELIMITER //
+
+CREATE PROCEDURE `sp_estadisticas_atenciones`()
+BEGIN
+  SELECT
+    u.apellido,
+    u.nombres,
+    e.nombre                                          AS especialidad,
+    COUNT(tr.id_turno_reserva)                        AS total_turnos,
+    SUM(CASE WHEN tr.atentido = 1 THEN 1 ELSE 0 END) AS turnos_atendidos,
+    COALESCE(SUM(tr.valor_total), 0)                  AS total_facturado
+  FROM medicos m
+  JOIN usuarios      u  ON m.id_usuario     = u.id_usuario
+  JOIN especialidades e  ON m.id_especialidad = e.id_especialidad
+  LEFT JOIN turnos_reservas tr
+         ON m.id_medico = tr.id_medico
+        AND tr.activo   = 1
+  WHERE u.activo = 1
+  GROUP BY m.id_medico, u.apellido, u.nombres, e.nombre
+  ORDER BY total_facturado DESC;
+END //
+
+DELIMITER ;
+
+-- ── AUDITORÍA ────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS `auditoria` (
+  `id_auditoria` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `accion` varchar(100) NOT NULL,
+  `id_usuario` int(10) UNSIGNED NULL,
+  `fecha_hora` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id_auditoria`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
