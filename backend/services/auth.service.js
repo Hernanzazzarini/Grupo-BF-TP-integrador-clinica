@@ -18,5 +18,5 @@ export const login = async (email, contrasenia) => {
     process.env.JWT_SECRET,
     { expiresIn: '4h' }
   );
-  return token;
+  return { token, id_usuario: usuario.id_usuario };
 };

@@ -28,6 +28,7 @@ const options = {
       { name: 'Turnos',                description: 'Reservas y gestión de turnos' },
       { name: 'Estadísticas',          description: 'Estadísticas de atenciones (admin)' },
       { name: 'Reportes PDF',          description: 'Generación de informes en PDF (admin)' },
+      { name: 'Auditoría',             description: 'Historial de acciones del sistema (admin) — funcionalidad extra' },
     ],
     paths: {
       // ── AUTH ────────────────────────────────────────────────────────────────
@@ -559,6 +560,37 @@ const options = {
             200: {
               description: 'Archivo PDF generado',
               content: { 'application/pdf': {} },
+            },
+          },
+        },
+      },
+
+      // ── AUDITORÍA ────────────────────────────────────────────────────────
+      '/api/v2/auditoria': {
+        get: {
+          tags: ['Auditoría'],
+          summary: 'Listar historial de acciones — rol: admin(3)',
+          description: 'Devuelve todas las acciones registradas (LOGIN, CREAR_TURNO_ADMIN, RESERVAR_TURNO_PACIENTE, TURNO_ATENDIDO) con usuario y fecha.',
+          security: [{ bearerAuth: [] }],
+          responses: {
+            200: {
+              description: 'Historial de auditoría ordenado por fecha descendente',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        id_auditoria: { type: 'integer' },
+                        accion:       { type: 'string', example: 'LOGIN' },
+                        id_usuario:   { type: 'integer', nullable: true },
+                        fecha_hora:   { type: 'string', format: 'date-time' },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         },

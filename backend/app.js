@@ -19,6 +19,7 @@ import pacientesV2 from './routes/v2/pacientes.routes.js';
 import turnosV2 from './routes/v2/turnos.routes.js';
 import estadisticasRoutes from './routes/v2/estadisticas.routes.js';
 import pdfRoutes from './routes/v2/pdf.routes.js';
+import auditoriaRoutes from './routes/v2/auditoria.routes.js';
 
 
 
@@ -49,6 +50,7 @@ app.use('/api/v2/pacientes', pacientesV2);
 app.use('/api/v2/turnos', turnosV2);
 app.use('/api/v2/estadisticas', estadisticasRoutes);
 app.use('/api/v2/reportes', pdfRoutes);
+app.use('/api/v2/auditoria', auditoriaRoutes);
 
 // iniciar servidor + test BD
 app.listen(process.env.PORT, async () => {

@@ -1,4 +1,5 @@
 import * as TurnosService from '../services/turnos.service.js';
+import { registrarAccion } from '../utils/logger.js';
 
 export const getTurnos = async (req, res) => {
   try {
@@ -15,6 +16,7 @@ export const createTurno = async (req, res) => {
     const result = await TurnosService.create(req.body);
     if (result.error === 'paciente_not_found') return res.status(404).json({ message: 'Paciente no encontrado' });
     if (result.error === 'medico_not_found') return res.status(404).json({ message: 'Médico no encontrado' });
+    registrarAccion('CREAR_TURNO_ADMIN', req.usuario?.id_usuario);
     res.status(201).json({ id: result.insertId, valor_total: result.valorTotal, message: 'Turno registrado correctamente' });
   } catch (error) {
     console.error(error);
@@ -27,6 +29,7 @@ export const reservarTurnoPaciente = async (req, res) => {
     const result = await TurnosService.reservar(req.usuario.id_usuario, req.body);
     if (result.error === 'paciente_not_found') return res.status(404).json({ message: 'Paciente no encontrado' });
     if (result.error === 'medico_not_found') return res.status(404).json({ message: 'Médico no encontrado' });
+    registrarAccion('RESERVAR_TURNO_PACIENTE', req.usuario.id_usuario);
     res.status(201).json({ id: result.insertId, valor_total: result.valorTotal, message: 'Turno reservado correctamente' });
   } catch (error) {
     console.error(error);
@@ -60,6 +63,7 @@ export const marcarAtendido = async (req, res) => {
   try {
     const affected = await TurnosService.marcarAtendido(req.params.id);
     if (!affected) return res.status(404).json({ message: 'Turno no encontrado' });
+    registrarAccion('TURNO_ATENDIDO', req.usuario?.id_usuario);
     res.json({ message: 'Turno marcado como atendido' });
   } catch (error) {
     console.error(error);

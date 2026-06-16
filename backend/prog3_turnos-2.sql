@@ -420,6 +420,15 @@ END //
 
 DELIMITER ;
 
+-- ── AUDITORÍA ────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS `auditoria` (
+  `id_auditoria` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `accion` varchar(100) NOT NULL,
+  `id_usuario` int(10) UNSIGNED NULL,
+  `fecha_hora` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id_auditoria`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
