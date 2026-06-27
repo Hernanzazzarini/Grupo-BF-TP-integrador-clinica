@@ -1,8 +1,3 @@
-import { pool } from '../config/db.js';
+import * as AuditoriaRepository from '../repositories/auditoria.repository.js';
 
-export const getAll = async () => {
-  const [rows] = await pool.query(
-    'SELECT * FROM auditoria ORDER BY fecha_hora DESC'
-  );
-  return rows;
-};
+export const getAll = () => AuditoriaRepository.findAll();
