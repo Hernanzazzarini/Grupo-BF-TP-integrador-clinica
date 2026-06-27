@@ -1,7 +1,7 @@
 //Define los endpoints
 
-import { validarEspecialidad } from '../middlewares/especialidades.validator.js';
-import { validarCampos } from '../middlewares/validar-campos.js';
+import { validarEspecialidad } from '../../middlewares/especialidades.validator.js';
+import { validarCampos } from '../../middlewares/validar-campos.js';
 import { Router } from 'express';
 import {
   getEspecialidades,
@@ -9,7 +9,7 @@ import {
   createEspecialidad,
   updateEspecialidad,
   deleteEspecialidad
-} from '../controllers/especialidades.controller.js';
+} from '../../controllers/especialidades.controller.js';
 
 const router = Router();
 
