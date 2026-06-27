@@ -1,8 +1,5 @@
-import { pool } from '../config/db.js';
+import * as AuditoriaRepository from '../repositories/auditoria.repository.js';
 
 export const registrarAccion = (accion, id_usuario = null) => {
-  pool.query(
-    'INSERT INTO auditoria (accion, id_usuario) VALUES (?, ?)',
-    [accion, id_usuario]
-  ).catch((err) => console.error('[AUDITORIA ERROR]', err.message));
+  AuditoriaRepository.insert(accion, id_usuario);
 };
