@@ -1,40 +1,7 @@
-import { pool } from '../config/db.js';
+import * as ObrasSocialesRepository from '../repositories/obras-sociales.repository.js';
 
-export const getAll = async () => {
-  const [rows] = await pool.query('SELECT * FROM obras_sociales WHERE activo = 1');
-  return rows;
-};
-
-export const getById = async (id) => {
-  const [rows] = await pool.query(
-    'SELECT * FROM obras_sociales WHERE id_obra_social = ? AND activo = 1',
-    [id]
-  );
-  return rows[0] ?? null;
-};
-
-export const create = async ({ nombre, descripcion, porcentaje_descuento, es_particular }) => {
-  const [result] = await pool.query(
-    'INSERT INTO obras_sociales (nombre, descripcion, porcentaje_descuento, es_particular) VALUES (?,?,?,?)',
-    [nombre, descripcion, porcentaje_descuento, es_particular]
-  );
-  return result.insertId;
-};
-
-export const update = async (id, { nombre, descripcion, porcentaje_descuento, es_particular }) => {
-  const [result] = await pool.query(
-    `UPDATE obras_sociales
-     SET nombre=?, descripcion=?, porcentaje_descuento=?, es_particular=?
-     WHERE id_obra_social=? AND activo=1`,
-    [nombre, descripcion, porcentaje_descuento, es_particular, id]
-  );
-  return result.affectedRows;
-};
-
-export const remove = async (id) => {
-  const [result] = await pool.query(
-    'UPDATE obras_sociales SET activo = 0 WHERE id_obra_social = ?',
-    [id]
-  );
-  return result.affectedRows;
-};
+export const getAll = () => ObrasSocialesRepository.findAll();
+export const getById = (id) => ObrasSocialesRepository.findById(id);
+export const create = (data) => ObrasSocialesRepository.insert(data);
+export const update = (id, data) => ObrasSocialesRepository.updateById(id, data);
+export const remove = (id) => ObrasSocialesRepository.deactivate(id);

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { param } from 'express-validator';
 
 import {
   getObrasSociales,
@@ -27,6 +28,8 @@ router.get(
   '/:id',
   validarJWT,
   tieneRol(3),
+  param('id').isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+  validarCampos,
   getObraSocial
 );
 
@@ -43,6 +46,7 @@ router.put(
   '/:id',
   validarJWT,
   tieneRol(3),
+  param('id').isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
   validarObraSocial,
   validarCampos,
   updateObraSocial
@@ -52,6 +56,8 @@ router.delete(
   '/:id',
   validarJWT,
   tieneRol(3),
+  param('id').isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+  validarCampos,
   deleteObraSocial
 );
 
