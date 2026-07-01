@@ -3,6 +3,7 @@
 import { validarEspecialidad } from '../../middlewares/especialidades.validator.js';
 import { validarCampos } from '../../middlewares/validar-campos.js';
 import { Router } from 'express';
+import { param } from 'express-validator';
 import { validarJWT } from '../../middlewares/validar-jwt.js';
 import { tieneRol } from '../../middlewares/validar-rol.js';
 import {
@@ -27,6 +28,8 @@ router.get(
   '/:id',
   validarJWT,
   tieneRol( 2, 3),
+  param('id').isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+  validarCampos,
   getEspecialidad
 );
 
