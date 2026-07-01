@@ -1,3 +1,6 @@
-import * as EstadisticasRepository from '../repositories/estadisticas.repository.js';
+import { pool } from '../config/db.js';
 
-export const getEstadisticas = () => EstadisticasRepository.callEstadisticas();
+export const getEstadisticas = async () => {
+  const [rows] = await pool.query('CALL sp_estadisticas_atenciones()');
+  return rows[0];
+};
