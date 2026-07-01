@@ -1,7 +1,38 @@
-import * as EspecialidadesRepository from '../repositories/especialidades.repository.js';
+import { pool } from '../config/db.js';
 
-export const getAll = () => EspecialidadesRepository.findAll();
-export const getById = (id) => EspecialidadesRepository.findById(id);
-export const create = (nombre) => EspecialidadesRepository.insert(nombre);
-export const update = (id, nombre) => EspecialidadesRepository.updateById(id, nombre);
-export const remove = (id) => EspecialidadesRepository.deactivate(id);
+export const getAll = async () => {
+  const [rows] = await pool.query('SELECT * FROM especialidades WHERE activo = 1');
+  return rows;
+};
+
+export const getById = async (id) => {
+  const [rows] = await pool.query(
+    'SELECT * FROM especialidades WHERE id_especialidad = ? AND activo = 1',
+    [id]
+  );
+  return rows[0] ?? null;
+};
+
+export const create = async (nombre) => {
+  const [result] = await pool.query(
+    'INSERT INTO especialidades (nombre, activo) VALUES (?, 1)',
+    [nombre]
+  );
+  return result.insertId;
+};
+
+export const update = async (id, nombre) => {
+  const [result] = await pool.query(
+    'UPDATE especialidades SET nombre = ? WHERE id_especialidad = ? AND activo = 1',
+    [nombre, id]
+  );
+  return result.affectedRows;
+};
+
+export const remove = async (id) => {
+  const [result] = await pool.query(
+    'UPDATE especialidades SET activo = 0 WHERE id_especialidad = ? AND activo = 1',
+    [id]
+  );
+  return result.affectedRows;
+};

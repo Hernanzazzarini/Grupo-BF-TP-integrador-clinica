@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { param } from 'express-validator';
 
 import {
   getMedicos,
@@ -29,8 +28,6 @@ router.get(
   '/especialidad/:id',
   validarJWT,
   tieneRol(2),
-  param('id').isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
-  validarCampos,
   getMedicosPorEspecialidad
 );
 
@@ -38,8 +35,6 @@ router.get(
   '/:id',
   validarJWT,
   tieneRol(2, 3),
-  param('id').isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
-  validarCampos,
   getMedico
 );
 
