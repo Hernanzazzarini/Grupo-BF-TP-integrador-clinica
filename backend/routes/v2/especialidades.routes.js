@@ -46,6 +46,7 @@ router.put(
   '/:id',
   validarJWT,
   tieneRol(3),
+  param('id').isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
   validarEspecialidad,
   validarCampos,
   updateEspecialidad
@@ -55,6 +56,8 @@ router.delete(
   '/:id',
   validarJWT,
   tieneRol(3),
+  param('id').isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+  validarCampos,
   deleteEspecialidad
 );
 
